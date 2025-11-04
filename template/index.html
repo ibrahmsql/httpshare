@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen text-gray-100 font-sans">
+
+  <div class="max-w-6xl mx-auto p-6">
+
+    <!-- Current Directory / Breadcrumb -->
+    <div class="mb-8 text-gray-300 text-lg flex items-center space-x-3">
+      <a id="up-directory" href="#" class="hover:text-white flex items-center transition">
+        <span class="text-yellow-400 mr-1">⬆️</span> ../
+      </a>
+      <span class="text-yellow-400">📂</span>
+      <span id="current-dir" class="truncate"></span>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      
+      <!-- Directories -->
+      {{range .Directories}}
+      <a href="/{{.}}/" class="group bg-gray-800 p-4 rounded-lg flex flex-col items-center hover:bg-gray-700 transition">
+        <div class="text-yellow-400 text-6xl mb-2">📁</div>
+        <div class="text-center font-medium truncate w-full">{{.}}</div>
+      </a>
+      {{end}}
+
+      <!-- Files -->
+      {{range .Files}}
+      <a href="/{{.}}/download" class="group bg-gray-800 p-4 rounded-lg flex flex-col items-center hover:bg-gray-700 transition">
+        <div class="text-blue-400 text-6xl mb-2">📄</div>
+        <div class="text-center font-medium truncate w-full">{{.}}</div>
+      </a>
+      {{end}}
+
+    </div>
+  </div>
+
+  <script>
+    const path = window.location.pathname;
+    const currentDir = document.getElementById('current-dir');
+    const upLink = document.getElementById('up-directory');
+
+    // Show current directory
+    currentDir.textContent = path === "/" ? "/" : path.split("/").filter(Boolean).pop();
+
+    // Set "../" link dynamically
+    if (path !== "/") {
+      const trimmedPath = path.endsWith('/') ? path.slice(0, -1) : path;
+      const parent = trimmedPath.substring(0, trimmedPath.lastIndexOf('/') + 1) || "/";
+      upLink.href = parent;
+    } else {
+      // Hide ../ if at root
+      upLink.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

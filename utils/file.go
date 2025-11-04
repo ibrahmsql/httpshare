@@ -2,6 +2,8 @@ package utils
 
 import (
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/isa0-gh/httpshare/models"
 )
@@ -21,4 +23,10 @@ func GetFiles(path string) (models.DirectoryEntries, error) {
 	}
 
 	return directoryEntries, nil
+}
+
+func UrlToFilePath(url string) string {
+	parts := strings.Split(url, "/")
+	path := filepath.Join(parts...)
+	return path
 }
