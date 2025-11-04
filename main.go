@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-
+	"net/url"
 	"github.com/isa0-gh/httpshare/template"
 	"github.com/isa0-gh/httpshare/utils"
 	"github.com/labstack/echo/v4"
@@ -13,7 +13,8 @@ func main() {
 	e := echo.New()
 	e.HideBanner = true
 	e.GET("/*", func(c echo.Context) error {
-		path := utils.UrlToFilePath(c.Param("*"))
+		decoded,_ := url.QueryUnescape(c.Param("*"))
+		path := utils.UrlToFilePath(decoded)
 		if path == "" {
 			path = "."
 		}
