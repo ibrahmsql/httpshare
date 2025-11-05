@@ -21,6 +21,7 @@ func isImage(filename string) bool {
 
 func GetFiles(path string) (models.DirectoryEntries, error) {
 	var directoryEntries models.DirectoryEntries
+	directoryEntries.Path = path
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		return directoryEntries, err
@@ -31,11 +32,11 @@ func GetFiles(path string) (models.DirectoryEntries, error) {
 		} else {
 			if isImage(entry.Name()) {
 				directoryEntries.Images = append(directoryEntries.Images, entry.Name())
+			} else {
+				directoryEntries.Files = append(directoryEntries.Files, entry.Name())
 			}
-			directoryEntries.Files = append(directoryEntries.Files, entry.Name())
 		}
 	}
-
 	return directoryEntries, nil
 }
 

@@ -15,7 +15,7 @@
       <a id="up-directory" href="#" class="hover:text-white flex items-center transition">
         <span class="text-yellow-400 mr-1">⬆️</span> ../
       </a>
-      <span class="text-yellow-400">📂</span>
+      <span class="text-yellow-400">📂 {{.Path}}</span>
       <span id="current-dir" class="truncate"></span>
     </div>
 
@@ -49,11 +49,8 @@
 
   <script>
     const path = window.location.pathname;
-    const currentDir = document.getElementById('current-dir');
-    const upLink = document.getElementById('up-directory');
 
-    // Show current directory
-    currentDir.textContent = path === "/" ? "/" : path.split("/").filter(Boolean).pop();
+    const upLink = document.getElementById('up-directory');
 
     // Set "../" link dynamically
     if (path !== "/") {
