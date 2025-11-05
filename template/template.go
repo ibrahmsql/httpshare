@@ -30,8 +30,8 @@ func canPreview(filename string) bool {
 
 func Render(data models.DirectoryEntries) (string, error) {
 	funcMap := template.FuncMap{
-		"formatSize":  utils.FormatSize,
-		"canPreview":  canPreview,
+		"formatSize": utils.FormatSize,
+		"canPreview": canPreview,
 	}
 	tmpl := template.Must(template.New("index").Funcs(funcMap).Parse(indexHTML))
 	var buf bytes.Buffer

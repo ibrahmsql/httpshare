@@ -6,10 +6,13 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/isa0-gh/httpshare/config"
 	"github.com/isa0-gh/httpshare/template"
 	"github.com/isa0-gh/httpshare/utils"
 	"github.com/labstack/echo/v4"
 )
+
+var cfg *config.Config = config.Cfg
 
 // UploadFile handles file upload
 func UploadFile(c echo.Context) error {
@@ -106,7 +109,7 @@ func SearchFiles(c echo.Context) error {
 // BrowseFiles handles file browsing and rendering
 func BrowseFiles(c echo.Context) error {
 	decoded, _ := url.QueryUnescape(c.Param("*"))
-	path := utils.UrlToFilePath(decoded)
+	path := utils.UrlToFilePath(cfg.Directory, decoded)
 	if path == "" {
 		path = "."
 	}
